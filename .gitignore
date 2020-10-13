@@ -1,0 +1,8 @@
+node_modules
+.vscode
+.firebase
+.firebaserc
+firebase.json
+/dist
+.env
+.env.local
