@@ -15,11 +15,11 @@ export type SingleColumnDefinition<T> = {
     readonly width?: number
 }
 
-//export type DistributedSingleColumnDefinition<T> = T extends infer R ? SingleColumnDefinition<R> : never;
-
 export type GroupColumnDefinition<T> = {
     readonly headerName: string,
     readonly children: readonly SingleColumnDefinition<T>[]
 }
 
 export type ColumnDefinition<T> = SingleColumnDefinition<T> | GroupColumnDefinition<T>
+
+export type DistributedColumnDefinition<T> = T extends infer R ? ColumnDefinition<R> : never;

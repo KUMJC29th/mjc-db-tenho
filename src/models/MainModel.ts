@@ -5,11 +5,9 @@
 import { MatchResults } from './MatchResults';
 import { PlayerStats } from './PlayerStats';
 import { Competition } from './Competition';
-import { Revision } from './Revision';
 
 export type MainModel = {
     readonly matchResults: MatchResults,
     readonly playerStats: PlayerStats,
-    readonly competition: Competition,
-    readonly revisions: readonly Revision[]
+    readonly competition: Competition
 };

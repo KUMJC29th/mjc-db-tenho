@@ -3,24 +3,21 @@
  * This Source Code Form is “Incompatible With Secondary Licenses”, as defined by the Mozilla Public License, v. 2.0. */
 
 import { RegularTabViewModel, toRegularTabViewModel } from './RegularTabViewModel';
-import { StatsTabViewModel, toStatsTabViewModel } from './StatsTabViewModel';
+import { StatsTabViewModel } from './StatsTabViewModel';
 import { CompetitionTabViewModel, toCompetitionTabViewModel } from './CompetitionTabViewModel';
-import { AboutTabViewModel, toAboutTabViewModel } from './AboutTabViewModel';
 import { MainModel } from '@/models/MainModel';
 
 export type MainViewModel = {
     readonly regular: RegularTabViewModel,
     readonly stats: StatsTabViewModel,
-    readonly competition: CompetitionTabViewModel,
-    readonly about: AboutTabViewModel
+    readonly competition: CompetitionTabViewModel
 }
 
 export function toMainViewModel(mainModel: MainModel): MainViewModel
 {
     return {
         regular: toRegularTabViewModel(mainModel.matchResults),
-        stats: toStatsTabViewModel(mainModel.playerStats),
-        competition: toCompetitionTabViewModel(mainModel.competition),
-        about: toAboutTabViewModel(mainModel.revisions)
+        stats: new StatsTabViewModel(mainModel.competition.players, mainModel.playerStats),
+        competition: toCompetitionTabViewModel(mainModel.competition)
     };
 }

@@ -15,8 +15,16 @@ function padZero(n: number): string
     return ("00" + n).slice(-2);
 }
 
-export function toRegularDate(date: Date | null): string
+export function toRegularDate(date: Date | null, paddingZero: boolean = true): string
 {
-    return date == null ? ""
-        : `${date.getFullYear()}/${padZero(date.getMonth() + 1)}/${padZero(date.getDate())}`;
+    if (paddingZero)
+    {
+        return date == null ? ""
+            : `${date.getFullYear()}/${padZero(date.getMonth() + 1)}/${padZero(date.getDate())}`;
+    }
+    else
+    {
+        return date == null ? ""
+            : `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+    }
 }
