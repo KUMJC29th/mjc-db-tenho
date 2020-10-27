@@ -59,7 +59,6 @@ export default class DatePickerCalendar extends Vue
     @Emit("on-date-cell-clicked")
     raiseDateCellClicked(newDate: Date): Date | null
     {
-        console.log("calendar raiseDateCellClicked")
         return newDate;
     }
     // END REGION: Selected date

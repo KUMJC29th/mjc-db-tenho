@@ -59,7 +59,6 @@ export default class DatePikcerCell extends Vue
     @Emit("on-cell-clicked")
     raiseCellClicked(value: number): number
     {
-        console.log("cell raiseCellClicked");
         return value;
     }
 }
