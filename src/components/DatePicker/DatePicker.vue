@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { ColDefUtil } from 'ag-grid-community';
-import { Component, Emit, Prop, Vue } from "vue-property-decorator";
+import { Component, Emit, Prop, Vue, Watch } from "vue-property-decorator";
 import DatePickerWindow from "./DatePickerWindow.vue";
 
 @Component({

@@ -134,8 +134,9 @@ export default class StatsTabContent extends Vue
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: default; 
 }
 .button:hover {
-    background-color: #e8e8e8;
+    opacity: 0.7;
 }
 </style>

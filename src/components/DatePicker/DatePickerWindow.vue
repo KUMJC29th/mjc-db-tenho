@@ -384,6 +384,6 @@ export default class DatePickerWindow extends Vue
     align-items: center;
 }
 .button-item:hover {
-    background-color: #e8e8e8;
+    opacity: 0.7;
 }
 </style>

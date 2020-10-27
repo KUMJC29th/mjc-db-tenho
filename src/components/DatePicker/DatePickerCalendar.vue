@@ -90,7 +90,7 @@ export default class DatePickerCalendar extends Vue
     isSelectedDateCell(rowIndex: number, columnIndex: number): boolean
     {
         const date = new Date(this.currentYear, this.currentMonth, this.calendar[rowIndex][columnIndex]);
-        return date === this.selectedDate; 
+        return date.getTime() === this.selectedDate?.getTime(); 
     }
 
     isHiddenDateCell(rowIndex: number, columnIndex: number): boolean
@@ -117,5 +117,6 @@ export default class DatePickerCalendar extends Vue
 .weekday-header-cell {
     width: 40px;
     height: 30px;
+    text-align: center;
 }
 </style>
