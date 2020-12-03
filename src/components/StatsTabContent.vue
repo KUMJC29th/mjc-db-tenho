@@ -51,7 +51,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { AgGridVue } from "ag-grid-vue";
 import { StatsTabViewModel } from "@/view_models/StatsTabViewModel";
-import DatePicker from './DatePicker/DatePicker.vue';
+import DatePicker from './date_picker/DatePicker.vue';
 import { toRegularDate } from '@/util/DateExtensions';
 import { StatsGridRowDataViewModel } from '@/view_models/StatsGridRowDataViewModel';
 

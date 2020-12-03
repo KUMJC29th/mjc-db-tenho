@@ -3,7 +3,7 @@
 * This Source Code Form is “Incompatible With Secondary Licenses”, as defined by the Mozilla Public License, v. 2.0. */
 
 import { GridViewModel } from './grids/GridViewModel';
-import { MatchResults } from '@/models/MatchResults';
+import { MatchResult } from '@/models/MatchResult';
 import { SingleColumnDefinition } from './grids/ColumnDefinition';
 import { toShortDate, toSignedInteger } from '@/util/ValueFormatter';
 import { dateNumToDate } from '@/util/DateExtensions';
@@ -14,7 +14,7 @@ export type RegularTabViewModel = {
 
 const numberCellWidth = 90;
 
-export function toRegularTabViewModel(matchResults: MatchResults): RegularTabViewModel
+export function toRegularTabViewModel(players: readonly string[], matchResults: readonly MatchResult[]): RegularTabViewModel
 {
     const gridViewModel: GridViewModel<Date | number> = {
         columnDefs: [
@@ -32,7 +32,7 @@ export function toRegularTabViewModel(matchResults: MatchResults): RegularTabVie
                 pinned: "left",
                 width: 60
             } as SingleColumnDefinition<number>,
-            ...matchResults.players.map((player, i) =>
+            ...players.map((player, i) =>
                 ({
                     cellClass: "cell-number",
                     field: `p${i}`,
@@ -42,7 +42,7 @@ export function toRegularTabViewModel(matchResults: MatchResults): RegularTabVie
                 } as SingleColumnDefinition<number>)
             )
         ],
-        rowData: matchResults.results.map(result =>
+        rowData: matchResults.map(result =>
             {
                 const ret = {
                     date: dateNumToDate(result.d),

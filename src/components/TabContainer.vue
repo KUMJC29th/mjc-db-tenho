@@ -10,12 +10,15 @@
         <label class="tab-label" for="stats_tab">統計</label>
         <input type="radio" name="tab_label_input" id="competition_tab" value="competition">
         <label class="tab-label" for="competition_tab">相性表</label>
+        <input type="radio" name="tab_label_input" id="chart_tab" value="chart">
+        <label class="tab-label" for="chart_tab">グラフ</label>
         <input type="radio" name="tab_label_input" id="about_tab" value="about">
         <label class="tab-label tab-label-right" for="about_tab">About</label>
 
         <RegularTabContent id="regular_tab_content" class="tab-content" :vm="vm.regular" />
         <StatsTabContent id="stats_tab_content" class="tab-content" :vm="vm.stats" />
         <CompetitionTabContent id="competition_tab_content" class="tab-content" :vm="vm.competition" />
+        <ChartTabContent id="chart_tab_content" class="tab-content" :vm="vm.chart" />
         <AboutTabContent id="about_tab_content" class="tab-content" :vm="vm.about" />
     </div>
 </template>
@@ -25,6 +28,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import RegularTabContent from "./RegularTabContent.vue";
 import StatsTabContent from "./StatsTabContent.vue";
 import CompetitionTabContent from "./CompetitionTabContent.vue";
+import ChartTabContent from "./ChartTabContent.vue";
 import AboutTabContent from "./AboutTabContent.vue";
 import { MainViewModel } from "../view_models/MainViewModel";
 
@@ -33,6 +37,7 @@ import { MainViewModel } from "../view_models/MainViewModel";
         RegularTabContent,
         StatsTabContent,
         CompetitionTabContent,
+        ChartTabContent,
         AboutTabContent
     }
 })
@@ -82,7 +87,8 @@ export default class TabContainer extends Vue
     #regular_tab:checked ~ #regular_tab_content,
     #stats_tab:checked ~ #stats_tab_content,
     #competition_tab:checked ~ #competition_tab_content,
-    #about_tab:checked ~ #about_tab_content {
+    #chart_tab:checked ~ #chart_tab_content,
+    #about_tab:checked ~ #about_tab_content { 
         display: block;
     }
 

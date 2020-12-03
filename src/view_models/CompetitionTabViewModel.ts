@@ -26,12 +26,10 @@ function displayCompetitionResultIncome(params: { value: CompetitionResult | nul
 }
 
 
-export function toCompetitionTabViewModel(competition: Competition): CompetitionTabViewModel
+export function toCompetitionTabViewModel(players: readonly string[], competition: Competition): CompetitionTabViewModel
 {
-    const players = competition.players;
-
     // 'rowData'は2つのvmで参照を使い回す。readonlyなのでおそらく問題ないはず。
-    const rowData = competition.items.map((row, rowIndex) =>
+    const rowData = competition.map((row, rowIndex) =>
         ({
             player: players[rowIndex],
             ...row.reduce((obj, cell, columnIndex) =>
@@ -53,7 +51,7 @@ export function toCompetitionTabViewModel(competition: Competition): Competition
                 pinned: "left",
                 width: cellWidth
             },
-            ...competition.players.map((player, index) =>
+            ...players.map((player, index) =>
                 ({
                     field: `p${index}`,
                     headerName: player,
@@ -75,7 +73,7 @@ export function toCompetitionTabViewModel(competition: Competition): Competition
                 pinned: "left",
                 width: cellWidth
             },
-            ...competition.players.map((player, index) =>
+            ...players.map((player, index) =>
                 ({
                     field: `p${index}`,
                     headerName: player,

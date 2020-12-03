@@ -18,9 +18,6 @@ async function getMainModel(): Promise<MainModel | null>
     }
     catch (error)
     {
-        //debug
-        //console.log(error);
-
         return null;
     }
 }

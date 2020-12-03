@@ -6,18 +6,22 @@ import { RegularTabViewModel, toRegularTabViewModel } from './RegularTabViewMode
 import { StatsTabViewModel } from './StatsTabViewModel';
 import { CompetitionTabViewModel, toCompetitionTabViewModel } from './CompetitionTabViewModel';
 import { MainModel } from '@/models/MainModel';
+import { ChartTabViewModel } from './ChartTabViewModel';
 
 export type MainViewModel = {
     readonly regular: RegularTabViewModel,
     readonly stats: StatsTabViewModel,
-    readonly competition: CompetitionTabViewModel
-}
+    readonly competition: CompetitionTabViewModel,
+    readonly chart: ChartTabViewModel
+};
 
 export function toMainViewModel(mainModel: MainModel): MainViewModel
 {
+    const playersName = mainModel.players.map(item => item.name);
     return {
-        regular: toRegularTabViewModel(mainModel.matchResults),
-        stats: new StatsTabViewModel(mainModel.competition.players, mainModel.playerStats),
-        competition: toCompetitionTabViewModel(mainModel.competition)
+        regular: toRegularTabViewModel(playersName, mainModel.matchResults),
+        stats: new StatsTabViewModel(playersName, mainModel.playerStats),
+        competition: toCompetitionTabViewModel(playersName, mainModel.competition),
+        chart: new ChartTabViewModel(mainModel.players, mainModel.playerStats)
     };
 }
