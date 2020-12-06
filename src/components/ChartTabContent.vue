@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { ChartTabViewModel } from "@/view_models/ChartTabViewModel";
 import DateChart from "@/components/date_chart/DateChart.vue";
 import YearMonthPicker from "@/components/year_month_picker/YearMonthPicker.vue";
@@ -85,7 +85,7 @@ export default class ChartTabContent extends Vue
     }
 
     selectedItem: string = "none";
-
+    caption: string = "";
     chartData: DateChartViewModel | null = null;
 
     update(): void
@@ -99,9 +99,11 @@ export default class ChartTabContent extends Vue
         switch (this.selectedItem)
         {
             case "totalIncome": {
+                this.caption = "総合収支";
                 this.chartData = this.vm.totalIncome;
             } break;
             case "quinellaRate": {
+                this.caption = "連対率";
                 this.chartData = this.vm.quinellaRate;
             } break;
             default: {
@@ -111,18 +113,6 @@ export default class ChartTabContent extends Vue
         
         this.beginDate = this.selectedBeginDate;
         this.endDate = this.selectedEndDate;
-    }
-
-    get caption(): string
-    {
-        if (this.chartData === null) return "";
-        
-        switch (this.selectedItem)
-        {
-            case "totalIncome": return "総合収支";
-            case "quinellaRate": return "連対率";
-            default: return "";
-        }
     }
 }
 </script>

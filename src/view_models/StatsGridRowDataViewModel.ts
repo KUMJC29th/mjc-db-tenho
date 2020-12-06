@@ -121,6 +121,8 @@ const fileds = [
     "pinfuProbability",
     "tanyaoProbability",
     "fanpaiProbability",
+    // "doraProbability",
+    // "hiddenDoraProbability",
     ...yakuFields
 ] as const;
 
