@@ -16,26 +16,43 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { LabelPosition } from "@/view_models/charts/LabelPosition";
+import { Component, Prop, Emit, Vue } from "vue-property-decorator";
+import { DateChartPointViewModel } from "@/view_models/charts/DateChartPointViewModel";
 
 @Component
 export default class DateChartPoint extends Vue
 {
     @Prop({ required: true })
-    vm!: LabelPosition;
+    vm!: DateChartPointViewModel;
 
     hovers: boolean = false;
 
-    onMouseOver(): void {
+    onMouseOver(): void
+    {
         this.hovers = true;
-    }
-    onMouseLeave(): void {
-        this.hovers = false;
+        this.raiseMouseOver();
     }
 
-    get circleColor(): string {
-        return this.hovers ? (this.vm.color ?? "NULL") : "transparent";
+    @Emit("on-mouse-over")
+    raiseMouseOver(): DateChartPointViewModel
+    {
+        return this.vm;
+    }
+
+    onMouseLeave(): void
+    {
+        this.hovers = false;
+        this.raiseMouseLeave();
+    }
+
+    @Emit("on-mouse-leave")
+    raiseMouseLeave(): void
+    {
+    }
+
+    get circleColor(): string
+    {
+        return this.hovers ? this.vm.player.color : "transparent";
     }
 }
 </script>

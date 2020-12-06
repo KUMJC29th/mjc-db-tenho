@@ -12,17 +12,20 @@
         />
         <DateChartPoint v-for="(item, i) in points" :key="'p' + i"
             :vm="item"
+            @on-mouse-over="onPointMouseOver"
+            @on-mouse-leave="onPointMouseLeave"
         />
     </g>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Emit, Vue } from "vue-property-decorator";
 import { ChartDataItem } from "@/view_models/charts/ChartDataItem";
 import DateChartPoint from "./DateChartPoint.vue";
 import DateChartLine from "./DateChartLine.vue";
-import { LabelPosition } from "@/view_models/charts/LabelPosition";
+import { DateChartPointViewModel } from "@/view_models/charts/DateChartPointViewModel";
 import { LineEdgePoints } from "@/view_models/charts/LineEdgePoints";
+import { Player } from "@/models/Player";
 
 
 @Component({
@@ -37,7 +40,7 @@ export default class DateChartData extends Vue
     valueType!: "percent" | "signedInteger";
 
     @Prop({ required: true })
-    colors!: readonly string[];
+    players!: readonly Player[];
 
     @Prop({ required: true })
     marginLeft!: number;
@@ -84,7 +87,7 @@ export default class DateChartData extends Vue
             : "NULL";
     }
 
-    get points(): readonly LabelPosition[] {
+    get points(): readonly DateChartPointViewModel[] {
         return this.viewModels.flatMap(({ date, values }) => {
             const days = (date.getTime() - this.beginDate.getTime()) / 86400000;
             const x = this.marginLeft + days * this.widthPerDay;
@@ -93,10 +96,11 @@ export default class DateChartData extends Vue
                 if (value !== null) {
                     const y = this.marginTop + this.height - (value - this.minY) * this.heightPerValue;
                     return [{
-                        label: this.getDisplay(value),
                         x,
                         y,
-                        color: this.colors[i]
+                        player: this.players[i],
+                        date,
+                        display: this.getDisplay(value)
                     }];
                 } else {
                     return [];
@@ -124,14 +128,14 @@ export default class DateChartData extends Vue
                             y1: previous.y,
                             x2: x,
                             y2: previous.y,
-                            color: this.colors[i]
+                            color: this.players[i].color
                         });
                         buf.push({
                             x1: x,
                             y1: previous.y,
                             x2: x,
                             y2: y,
-                            color: this.colors[i]
+                            color: this.players[i].color
                         });
                     }
                     prev.set(i, { x, y });
@@ -139,6 +143,27 @@ export default class DateChartData extends Vue
             }
         }
         return buf;
+    }
+
+    onPointMouseOver(vm: DateChartPointViewModel): void
+    {
+        this.raisePointMouseOver(vm);
+    }
+
+    @Emit("on-point-mouse-over")
+    raisePointMouseOver(vm: DateChartPointViewModel): DateChartPointViewModel
+    {
+        return vm;
+    }
+
+    onPointMouseLeave(): void
+    {
+        this.raisePointMouseLeave();
+    }
+
+    @Emit("on-point-mouse-leave")
+    raisePointMouseLeave(): void
+    {
     }
 }
 </script>

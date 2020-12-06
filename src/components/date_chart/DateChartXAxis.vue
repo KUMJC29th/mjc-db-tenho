@@ -5,8 +5,8 @@
 <template>
     <g>
         <text v-for="(item, i) in xLabelPositions" :key="'xl' + i"
-            :x="item.x"
-            :y="item.y"
+            :x="item.x - 5"
+            :y="item.y + 5"
             dominant-baseline="central"
             text-anchor="end"
             font-size="10"
@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { LabelPosition } from "@/view_models/charts/LabelPosition";
+import { AxisLabel } from "@/view_models/charts/AxisLabel";
 
 @Component
 export default class DateChartXAxis extends Vue
@@ -48,8 +48,8 @@ export default class DateChartXAxis extends Vue
         return this.width / this.duration;
     }
 
-    get xLabelPositions(): readonly LabelPosition[] {
-        const buf: LabelPosition[] = [];
+    get xLabelPositions(): readonly AxisLabel[] {
+        const buf: AxisLabel[] = [];
         for (let i = 0; ; ++i) {
             const date = new Date(this.beginDate.getFullYear(), this.beginDate.getMonth() + i, 1);
             if (date > this.endDate) break;

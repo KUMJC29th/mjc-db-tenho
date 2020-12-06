@@ -70,7 +70,8 @@ export default class ChartTabContent extends Vue
     endDate: Date = this.vm.defaultEndDate;
 
     selectedBeginDate: Date = this.vm.defaultBeginDate;
-    selectedEndDate: Date = this.vm.defaultEndDate;
+    selectedEndDate: Date = this.vm.defaultEndDate.getMonth() === 11 ? new Date(this.vm.defaultEndDate.getFullYear() + 1, 0 ,1)
+            : new Date(this.vm.defaultEndDate.getFullYear(), this.vm.defaultEndDate.getMonth() + 1, 1);
 
     onBeginDateChanged(newValue: Date): void
     {

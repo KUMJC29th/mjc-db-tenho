@@ -23,8 +23,11 @@ export class ChartTabViewModel
         const beginDate = dateNumToDate(playerStats[0].dateNum);
         this.defaultBeginDate = new Date(beginDate.getFullYear(), beginDate.getMonth(), 1);
         const endDate = new Date();
+        this.defaultEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
+        /*
         this.defaultEndDate = endDate.getMonth() === 11 ? new Date(endDate.getFullYear() + 1, 0, 1)
             : new Date(endDate.getFullYear(), endDate.getMonth() + 1, 1);
+        */
     }
 
     get totalIncome(): DateChartViewModel

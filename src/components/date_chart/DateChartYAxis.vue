@@ -12,7 +12,7 @@
             stroke="silver"
         />
         <text v-for="(item, i) in yLabelPositions" :key="'yl' + i"
-            :x="item.x"
+            :x="item.x - 5"
             :y="item.y"
             dominant-baseline="central"
             text-anchor="end"
@@ -24,7 +24,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { LineEdgePoints } from "@/view_models/charts/LineEdgePoints";
-import { LabelPosition } from "@/view_models/charts/LabelPosition";
+import { AxisLabel } from "@/view_models/charts/AxisLabel";
 
 @Component
 export default class DateChartYAxis extends Vue
@@ -70,8 +70,8 @@ export default class DateChartYAxis extends Vue
         return buf;
     }
 
-    get yLabelPositions(): readonly LabelPosition[] {
-        const buf: LabelPosition[] = [];
+    get yLabelPositions(): readonly AxisLabel[] {
+        const buf: AxisLabel[] = [];
         const numSections = Math.floor((this.maxY - this.minY) / this.intervalY);
         const interval = this.height / numSections;
         for (let i = 0; i <= numSections; ++i) {

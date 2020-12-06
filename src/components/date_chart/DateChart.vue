@@ -40,7 +40,7 @@
         <DateChartData
             clip-path="url(#plot_clip)"
             :value-type="valueType"
-            :colors="colors"
+            :players="players"
             :margin-left="marginLeft"
             :margin-top="marginTop"
             :width="width"
@@ -50,6 +50,8 @@
             :max-y="maxY"
             :min-y="minY"
             :view-models="chartDataItems"
+            @on-point-mouse-over="onPointMouseOver"
+            @on-point-mouse-leave="onPointMouseLeave"
         />
         <DateChartLegend
             :margin-left="marginLeft"
@@ -57,6 +59,9 @@
             :width="width"
             :height="height"
             :players="players"
+        />
+        <DateChartPopUp v-if="popUpPoint !== null"
+            :point="popUpPoint"
         />
     </svg>
 </template>
@@ -68,7 +73,9 @@ import DateChartYAxis from "./DateChartYAxis.vue";
 import DateChartXAxis from "./DateChartXAxis.vue";
 import DateChartData from "./DateChartData.vue";
 import DateChartLegend from "./DateChartLegend.vue";
+import DateChartPopUp from "./DateChartPopUp.vue";
 import { Player } from "@/models/Player";
+import { DateChartPointViewModel } from "@/view_models/charts/DateChartPointViewModel";
 
 
 const width = 600;
@@ -84,7 +91,8 @@ const marginBottom = 50;
         DateChartYAxis,
         DateChartXAxis,
         DateChartData,
-        DateChartLegend
+        DateChartLegend,
+        DateChartPopUp
     }
 })
 export default class DateChart extends Vue
@@ -139,6 +147,22 @@ export default class DateChart extends Vue
     get colors(): readonly string[]
     {
         return this.players.map(player => player.color);
+    }
+
+    // pop up
+    popUpPoint: DateChartPointViewModel | null = null;
+
+    onPointMouseOver(vm: DateChartPointViewModel): void
+    {
+        //debug
+        console.log("onPointMouseOver");
+
+        this.popUpPoint = vm;
+    }
+
+    onPointMouseLeave(): void
+    {
+        this.popUpPoint = null;
     }
 }
 </script>
