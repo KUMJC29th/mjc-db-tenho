@@ -6,7 +6,7 @@ import type { PlayerStats } from '@/models/PlayerStats';
 import { aggregatePlayerStats, ShortenedPlayerStat } from '@/models/ShortenedPlayerStat';
 import { yakuList } from '@/models/Yaku';
 import { dateNumToDate } from '@/util/DateExtensions';
-import { toDecimal, toInteger, toProbability } from '@/util/ValueFormatter';
+import { paramsToDecimal, paramsToInteger, paramsToProbability } from '@/util/ParamsValueFormatter';
 import type { SingleColumnDefinition, DistributedColumnDefinition } from './grids/ColumnDefinition';
 import { createRowData, StatsGridField, StatsGridRowDataViewModel, yakuFields } from './StatsGridRowDataViewModel';
 import { lowerBoundIndex, upperBoundIndex } from "../util/ArrayExtensions";
@@ -40,102 +40,102 @@ function createGridColumnDefinitions(nameComparer: (valueA: string | null, value
             unSortIcon: true,
             width: 80
         },
-        createNumericSingleColumnDefinition("matchesCount", "半荘数", toInteger),
-        createNumericSingleColumnDefinition("sumIncome", "総合\n収支", toInteger),
-        createNumericSingleColumnDefinition("averageRank", "平均\n順位", toDecimal),
+        createNumericSingleColumnDefinition("matchesCount", "半荘数", paramsToInteger),
+        createNumericSingleColumnDefinition("sumIncome", "総合\n収支", paramsToInteger),
+        createNumericSingleColumnDefinition("averageRank", "平均\n順位", paramsToDecimal),
         {
             headerName: "順位率",
             children: [
-                createNumericSingleColumnDefinition("rank1Probability", "1位", toProbability),
-                createNumericSingleColumnDefinition("rank2Probability", "2位", toProbability),
-                createNumericSingleColumnDefinition("rank3Probability", "3位", toProbability),
-                createNumericSingleColumnDefinition("rank4Probability", "4位", toProbability),
+                createNumericSingleColumnDefinition("rank1Probability", "1位", paramsToProbability),
+                createNumericSingleColumnDefinition("rank2Probability", "2位", paramsToProbability),
+                createNumericSingleColumnDefinition("rank3Probability", "3位", paramsToProbability),
+                createNumericSingleColumnDefinition("rank4Probability", "4位", paramsToProbability),
             ]
         },
-        createNumericSingleColumnDefinition("averageScore", "平均\n点数", toInteger),
-        createNumericSingleColumnDefinition("blownAwayProbability", "飛び率", toProbability),
-        createNumericSingleColumnDefinition("gamesCount", "総局数", toInteger),
+        createNumericSingleColumnDefinition("averageScore", "平均\n点数", paramsToInteger),
+        createNumericSingleColumnDefinition("blownAwayProbability", "飛び率", paramsToProbability),
+        createNumericSingleColumnDefinition("gamesCount", "総局数", paramsToInteger),
         {
             headerName: "配牌時",
             children: [
-                createNumericSingleColumnDefinition("dealtAverageShantenCount", "平均\n聴向数", toDecimal),
-                createNumericSingleColumnDefinition("dealtAverageDoraCount", "平均\nドラ数", toDecimal),
+                createNumericSingleColumnDefinition("dealtAverageShantenCount", "平均\n聴向数", paramsToDecimal),
+                createNumericSingleColumnDefinition("dealtAverageDoraCount", "平均\nドラ数", paramsToDecimal),
             ]
         },
-        createNumericSingleColumnDefinition("riichiProbability", "立直率", toProbability),
-        createNumericSingleColumnDefinition("averageRiichiRound", "平均\n立直\n巡目", toDecimal),
-        createNumericSingleColumnDefinition("meldProbability", "副露率", toProbability),
+        createNumericSingleColumnDefinition("riichiProbability", "立直率", paramsToProbability),
+        createNumericSingleColumnDefinition("averageRiichiRound", "平均\n立直\n巡目", paramsToDecimal),
+        createNumericSingleColumnDefinition("meldProbability", "副露率", paramsToProbability),
         {
             headerName: "総合",
             children: [
-                createNumericSingleColumnDefinition("totalWinProbability", "和了率", toProbability),
-                createNumericSingleColumnDefinition("totalAverageWinScore", "平均\n和了点", toInteger),
-                createNumericSingleColumnDefinition("totalAverageDoubles", "平均\n飜数", toDecimal),
-                createNumericSingleColumnDefinition("totalSelfDrawProbability", "ツモ率", toProbability),
-                createNumericSingleColumnDefinition("totalAverageWinRound", "平均\n和了\n巡目", toDecimal),
-                createNumericSingleColumnDefinition("totalFeedingProbability", "放銃率", toProbability),
-                createNumericSingleColumnDefinition("totalAverageFeedingScore", "平均\n放銃点", toInteger),
-                createNumericSingleColumnDefinition("totalLossBySelfDrawProbability", "ツモ\nられ\n率", toProbability),
-                createNumericSingleColumnDefinition("totalAverageLossBySelfDraw", "平均\nツモ\n失点", toInteger)
+                createNumericSingleColumnDefinition("totalWinProbability", "和了率", paramsToProbability),
+                createNumericSingleColumnDefinition("totalAverageWinScore", "平均\n和了点", paramsToInteger),
+                createNumericSingleColumnDefinition("totalAverageDoubles", "平均\n飜数", paramsToDecimal),
+                createNumericSingleColumnDefinition("totalSelfDrawProbability", "ツモ率", paramsToProbability),
+                createNumericSingleColumnDefinition("totalAverageWinRound", "平均\n和了\n巡目", paramsToDecimal),
+                createNumericSingleColumnDefinition("totalFeedingProbability", "放銃率", paramsToProbability),
+                createNumericSingleColumnDefinition("totalAverageFeedingScore", "平均\n放銃点", paramsToInteger),
+                createNumericSingleColumnDefinition("totalLossBySelfDrawProbability", "ツモ\nられ\n率", paramsToProbability),
+                createNumericSingleColumnDefinition("totalAverageLossBySelfDraw", "平均\nツモ\n失点", paramsToInteger)
             ]
         },
         {
             headerName: "立直時",
             children: [
-                createNumericSingleColumnDefinition("riichiWinProbability", "和了率", toProbability),
-                createNumericSingleColumnDefinition("riichiAverageWinScore", "平均\n和了点", toInteger),
-                createNumericSingleColumnDefinition("riichiAverageDoubles", "平均\n飜数", toDecimal),
-                createNumericSingleColumnDefinition("riichiSelfDrawProbability", "ツモ率", toProbability),
-                createNumericSingleColumnDefinition("riichiAverageWinRound", "平均\n和了\n巡目", toDecimal),
-                createNumericSingleColumnDefinition("riichiFeedingProbability", "放銃率", toProbability),
-                createNumericSingleColumnDefinition("riichiAverageFeedingScore", "平均\n放銃点", toInteger),
-                createNumericSingleColumnDefinition("riichiLossBySelfDrawProbability", "ツモ\nられ\n率", toProbability),
-                createNumericSingleColumnDefinition("riichiAverageLossBySelfDraw", "平均\nツモ\n失点", toInteger),
-                createNumericSingleColumnDefinition("riichiPreempitiveProbability", "先制\n立直率", toProbability),
-                createNumericSingleColumnDefinition("riichiBadFormProbability", "愚形\n立直率", toProbability),
-                createNumericSingleColumnDefinition("riichiFuritenProbability", "フリ\nテン\n立直率", toProbability),
-                createNumericSingleColumnDefinition("riichiTrickProbability", "引っ\n掛け\n立直率", toProbability)
+                createNumericSingleColumnDefinition("riichiWinProbability", "和了率", paramsToProbability),
+                createNumericSingleColumnDefinition("riichiAverageWinScore", "平均\n和了点", paramsToInteger),
+                createNumericSingleColumnDefinition("riichiAverageDoubles", "平均\n飜数", paramsToDecimal),
+                createNumericSingleColumnDefinition("riichiSelfDrawProbability", "ツモ率", paramsToProbability),
+                createNumericSingleColumnDefinition("riichiAverageWinRound", "平均\n和了\n巡目", paramsToDecimal),
+                createNumericSingleColumnDefinition("riichiFeedingProbability", "放銃率", paramsToProbability),
+                createNumericSingleColumnDefinition("riichiAverageFeedingScore", "平均\n放銃点", paramsToInteger),
+                createNumericSingleColumnDefinition("riichiLossBySelfDrawProbability", "ツモ\nられ\n率", paramsToProbability),
+                createNumericSingleColumnDefinition("riichiAverageLossBySelfDraw", "平均\nツモ\n失点", paramsToInteger),
+                createNumericSingleColumnDefinition("riichiPreempitiveProbability", "先制\n立直率", paramsToProbability),
+                createNumericSingleColumnDefinition("riichiBadFormProbability", "愚形\n立直率", paramsToProbability),
+                createNumericSingleColumnDefinition("riichiFuritenProbability", "フリ\nテン\n立直率", paramsToProbability),
+                createNumericSingleColumnDefinition("riichiTrickProbability", "引っ\n掛け\n立直率", paramsToProbability)
             ]
         },
         {
             headerName: "副露時",
             children: [
-                createNumericSingleColumnDefinition("meldWinProbability", "和了率", toProbability),
-                createNumericSingleColumnDefinition("meldAverageWinScore", "平均\n和了点", toInteger),
-                createNumericSingleColumnDefinition("meldAverageDoubles", "平均\n飜数", toDecimal),
-                createNumericSingleColumnDefinition("meldSelfDrawProbability", "ツモ率", toProbability),
-                createNumericSingleColumnDefinition("meldAverageWinRound", "平均\n和了\n巡目", toDecimal),
-                createNumericSingleColumnDefinition("meldFeedingProbability", "放銃率", toProbability),
-                createNumericSingleColumnDefinition("meldAverageFeedingScore", "平均\n放銃点", toInteger),
-                createNumericSingleColumnDefinition("meldLossBySelfDrawProbability", "ツモ\nられ\n率", toProbability),
-                createNumericSingleColumnDefinition("meldAverageLossBySelfDraw", "平均\nツモ\n失点", toInteger)
+                createNumericSingleColumnDefinition("meldWinProbability", "和了率", paramsToProbability),
+                createNumericSingleColumnDefinition("meldAverageWinScore", "平均\n和了点", paramsToInteger),
+                createNumericSingleColumnDefinition("meldAverageDoubles", "平均\n飜数", paramsToDecimal),
+                createNumericSingleColumnDefinition("meldSelfDrawProbability", "ツモ率", paramsToProbability),
+                createNumericSingleColumnDefinition("meldAverageWinRound", "平均\n和了\n巡目", paramsToDecimal),
+                createNumericSingleColumnDefinition("meldFeedingProbability", "放銃率", paramsToProbability),
+                createNumericSingleColumnDefinition("meldAverageFeedingScore", "平均\n放銃点", paramsToInteger),
+                createNumericSingleColumnDefinition("meldLossBySelfDrawProbability", "ツモ\nられ\n率", paramsToProbability),
+                createNumericSingleColumnDefinition("meldAverageLossBySelfDraw", "平均\nツモ\n失点", paramsToInteger)
             ]
         },
         {
             headerName: "親番",
             children: [
-                createNumericSingleColumnDefinition("dealerWinProbability", "和了率", toProbability),
-                createNumericSingleColumnDefinition("dealerAverageWinScore", "平均\n和了点", toInteger),
-                createNumericSingleColumnDefinition("dealerAverageDoubles", "平均\n飜数", toDecimal),
-                createNumericSingleColumnDefinition("dealerSelfDrawProbability", "ツモ率", toProbability),
-                createNumericSingleColumnDefinition("dealerAverageWinRound", "平均\n和了\n巡目", toDecimal),
-                createNumericSingleColumnDefinition("dealerFeedingProbability", "放銃率", toProbability),
-                createNumericSingleColumnDefinition("dealerAverageFeedingScore", "平均\n放銃点", toInteger),
-                createNumericSingleColumnDefinition("dealerLossBySelfDrawProbability", "ツモ\nられ\n率", toProbability),
-                createNumericSingleColumnDefinition("dealerAverageLossBySelfDraw", "平均\nツモ\n失点", toInteger)
+                createNumericSingleColumnDefinition("dealerWinProbability", "和了率", paramsToProbability),
+                createNumericSingleColumnDefinition("dealerAverageWinScore", "平均\n和了点", paramsToInteger),
+                createNumericSingleColumnDefinition("dealerAverageDoubles", "平均\n飜数", paramsToDecimal),
+                createNumericSingleColumnDefinition("dealerSelfDrawProbability", "ツモ率", paramsToProbability),
+                createNumericSingleColumnDefinition("dealerAverageWinRound", "平均\n和了\n巡目", paramsToDecimal),
+                createNumericSingleColumnDefinition("dealerFeedingProbability", "放銃率", paramsToProbability),
+                createNumericSingleColumnDefinition("dealerAverageFeedingScore", "平均\n放銃点", paramsToInteger),
+                createNumericSingleColumnDefinition("dealerLossBySelfDrawProbability", "ツモ\nられ\n率", paramsToProbability),
+                createNumericSingleColumnDefinition("dealerAverageLossBySelfDraw", "平均\nツモ\n失点", paramsToInteger)
             ]
         },
         {
             headerName: "役出現期待値",
             children: [
-                createNumericSingleColumnDefinition("pinfuProbability", "平和", toProbability),
-                createNumericSingleColumnDefinition("tanyaoProbability", "断幺九", toProbability),
-                createNumericSingleColumnDefinition("fanpaiProbability", "飜牌", toProbability),
+                createNumericSingleColumnDefinition("pinfuProbability", "平和", paramsToProbability),
+                createNumericSingleColumnDefinition("tanyaoProbability", "断幺九", paramsToProbability),
+                createNumericSingleColumnDefinition("fanpaiProbability", "飜牌", paramsToProbability),
             ]
         },
         {
             headerName: "役出現回数",
-            children: yakuFields.map((yakuField, i) => createNumericSingleColumnDefinition(yakuField, yakuList[i], toInteger))
+            children: yakuFields.map((yakuField, i) => createNumericSingleColumnDefinition(yakuField, yakuList[i], paramsToInteger))
         }
     ]
 }

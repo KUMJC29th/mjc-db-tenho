@@ -55,7 +55,8 @@ export function getDateChartViewModelPercent(
     players: readonly string[],
     playerStats: PlayerStats,
     numeratorSelector: (stat: ShortenedPlayerStat) => number,
-    denominantSelector: (stat: ShortenedPlayerStat) => number
+    denominantSelector: (stat: ShortenedPlayerStat) => number,
+    rangeOption?: { readonly maxY: number, readonly minY: number, readonly intervalY: number }
 ): DateChartViewModel
 {
     const data: ChartDataItem[] = [];
@@ -65,9 +66,9 @@ export function getDateChartViewModelPercent(
     for (const { dateNum, stats } of playerStats)
     {
         const date = dateNumToDate(dateNum);
-        const values = stats.map(stat => {
-            const i = players.indexOf(stat.name);
-            if (i === -1) return null;
+        const values = players.map((player, i) => {
+            const stat = stats.find(stat => stat.name === player);
+            if (stat === undefined) return null;
             const numerator = numeratorSelector(stat.stat);
             const denominant = denominantSelector(stat.stat);
             const newSumNumerator = (sumNumerators[i] ?? 0) + numerator;
@@ -80,10 +81,8 @@ export function getDateChartViewModelPercent(
     }
 
     return {
-        valueType: "signedInteger",
-        minY: 0,
-        maxY: 1,
-        intervalY: 0.1,
+        valueType: "probability",
+        ...(rangeOption ?? { minY: 0, maxY: 1, intervalY: 0.1 }),
         data
     };
 }

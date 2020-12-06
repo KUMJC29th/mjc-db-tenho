@@ -11,6 +11,7 @@
                 <select v-model="selectedItem">
                     <option value="none" disabled>▼選択してください</option>
                     <option value="totalIncome">総合収支</option>
+                    <option value="quinellaRate">連対率</option>
                 </select>
             </div>
             <div class="flex">
@@ -100,6 +101,9 @@ export default class ChartTabContent extends Vue
             case "totalIncome": {
                 this.chartData = this.vm.totalIncome;
             } break;
+            case "quinellaRate": {
+                this.chartData = this.vm.quinellaRate;
+            } break;
             default: {
                 this.chartData = null;
             } break;
@@ -116,6 +120,7 @@ export default class ChartTabContent extends Vue
         switch (this.selectedItem)
         {
             case "totalIncome": return "総合収支";
+            case "quinellaRate": return "連対率";
             default: return "";
         }
     }

@@ -4,7 +4,7 @@
 
 import { Player } from '@/models/Player';
 import { PlayerStats } from '@/models/PlayerStats';
-import { getDateChartViewModelSignedInteger } from '@/services/getDateChartViewModel';
+import { getDateChartViewModelPercent, getDateChartViewModelSignedInteger } from '@/services/getDateChartViewModel';
 import { dateNumToDate } from '@/util/DateExtensions';
 import { DateChartViewModel } from './charts/DateChartViewModel';
 
@@ -24,10 +24,6 @@ export class ChartTabViewModel
         this.defaultBeginDate = new Date(beginDate.getFullYear(), beginDate.getMonth(), 1);
         const endDate = new Date();
         this.defaultEndDate = new Date(endDate.getFullYear(), endDate.getMonth(), 1);
-        /*
-        this.defaultEndDate = endDate.getMonth() === 11 ? new Date(endDate.getFullYear() + 1, 0, 1)
-            : new Date(endDate.getFullYear(), endDate.getMonth() + 1, 1);
-        */
     }
 
     get totalIncome(): DateChartViewModel
@@ -37,5 +33,20 @@ export class ChartTabViewModel
         }
 
         return this.map.get("totalIncome")!;
+    }
+
+    get quinellaRate(): DateChartViewModel
+    {
+        if (!this.map.has("quinellaRate")) {
+            this.map.set("quinellaRate", getDateChartViewModelPercent(
+                this.players.map(player => player.name),
+                this.playerStats,
+                stat => stat.r[0] + stat.r[1],
+                stat => stat.m,
+                { minY: 0.25, maxY: 0.75, intervalY: 0.05 }
+            ));
+        }
+
+        return this.map.get("quinellaRate")!;
     }
 }

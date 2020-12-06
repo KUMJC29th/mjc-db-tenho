@@ -26,6 +26,7 @@ import DateChartLine from "./DateChartLine.vue";
 import { DateChartPointViewModel } from "@/view_models/charts/DateChartPointViewModel";
 import { LineEdgePoints } from "@/view_models/charts/LineEdgePoints";
 import { Player } from "@/models/Player";
+import { getNumericFormatter } from "@/util/ChartValueFormatter";
 
 
 @Component({
@@ -37,7 +38,7 @@ import { Player } from "@/models/Player";
 export default class DateChartData extends Vue
 {
     @Prop({ required: true })
-    valueType!: "percent" | "signedInteger";
+    valueType!: "probability" | "signedInteger";
 
     @Prop({ required: true })
     players!: readonly Player[];
@@ -81,10 +82,8 @@ export default class DateChartData extends Vue
         return this.height / (this.maxY - this.minY);
     }
 
-    getDisplay(value: number): string {
-        return this.valueType === "percent" ? `${value.toFixed(2)}%`
-            : this.valueType === "signedInteger" ? (value > 0 ? `+${value.toFixed(0)}` : value.toFixed(0))
-            : "NULL";
+    get valueFormatter(): (value: number) => string {
+        return getNumericFormatter(this.valueType);
     }
 
     get points(): readonly DateChartPointViewModel[] {
@@ -100,7 +99,7 @@ export default class DateChartData extends Vue
                         y,
                         player: this.players[i],
                         date,
-                        display: this.getDisplay(value)
+                        display: this.valueFormatter(value)
                     }];
                 } else {
                     return [];

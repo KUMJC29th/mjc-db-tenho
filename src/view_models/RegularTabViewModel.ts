@@ -5,7 +5,7 @@
 import { GridViewModel } from './grids/GridViewModel';
 import { MatchResult } from '@/models/MatchResult';
 import { SingleColumnDefinition } from './grids/ColumnDefinition';
-import { toShortDate, toSignedInteger } from '@/util/ValueFormatter';
+import { paramsToShortDate, paramsToSignedInteger } from '@/util/ParamsValueFormatter';
 import { dateNumToDate } from '@/util/DateExtensions';
 
 export type RegularTabViewModel = {
@@ -22,7 +22,7 @@ export function toRegularTabViewModel(players: readonly string[], matchResults: 
                 field: "date",
                 headerName: "日付",
                 pinned: "left",
-                valueFormatter: toShortDate,
+                valueFormatter: paramsToShortDate,
                 width: 100
             } as SingleColumnDefinition<Date>,
             {
@@ -37,7 +37,7 @@ export function toRegularTabViewModel(players: readonly string[], matchResults: 
                     cellClass: "cell-number",
                     field: `p${i}`,
                     headerName: player,
-                    valueFormatter: toSignedInteger,
+                    valueFormatter: paramsToSignedInteger,
                     width: numberCellWidth
                 } as SingleColumnDefinition<number>)
             )

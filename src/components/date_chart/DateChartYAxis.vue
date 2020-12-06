@@ -25,12 +25,13 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { LineEdgePoints } from "@/view_models/charts/LineEdgePoints";
 import { AxisLabel } from "@/view_models/charts/AxisLabel";
+import { getNumericFormatter } from "@/util/ChartValueFormatter";
 
 @Component
 export default class DateChartYAxis extends Vue
 {
     @Prop({ required: true })
-    valueType!: "percent" | "signedInteger";
+    valueType!: "probability" | "signedInteger";
 
     @Prop({ required: true })
     marginLeft!: number;
@@ -53,12 +54,6 @@ export default class DateChartYAxis extends Vue
     @Prop({ required: true })
     intervalY!: number;
 
-    getDisplay(value: number): string {
-        return this.valueType === "percent" ? `${value.toFixed(2)}%`
-            : this.valueType === "signedInteger" ? (value > 0 ? `+${value.toFixed(0)}` : value.toFixed(0))
-            : "NULL";
-    }
-
     get horizontalLines(): readonly LineEdgePoints[] {
         const buf: LineEdgePoints[] = [];
         const numSections = Math.floor((this.maxY - this.minY) / this.intervalY);
@@ -70,6 +65,10 @@ export default class DateChartYAxis extends Vue
         return buf;
     }
 
+    get valueFormatter(): (value: number) => string {
+        return getNumericFormatter(this.valueType);
+    }
+
     get yLabelPositions(): readonly AxisLabel[] {
         const buf: AxisLabel[] = [];
         const numSections = Math.floor((this.maxY - this.minY) / this.intervalY);
@@ -77,7 +76,7 @@ export default class DateChartYAxis extends Vue
         for (let i = 0; i <= numSections; ++i) {
             const y = this.marginTop + this.height - i * interval;
             const value = this.minY + i * this.intervalY;
-            const label = this.getDisplay(value);
+            const label = this.valueFormatter(value);
             buf.push({ label, x: this.marginLeft, y });
         }
         return buf;

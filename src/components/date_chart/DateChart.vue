@@ -118,7 +118,7 @@ export default class DateChart extends Vue
     }
 
     @Prop({ required: true })
-    valueType!: "percent" | "signedInteger";
+    valueType!: "probability" | "signedInteger";
 
     @Prop({ required: true })
     players!: readonly Player[];

@@ -42,6 +42,6 @@ export default class CompetitionTabContent extends Vue
 #competition_win_loss_grid,
 #competition_income_grid {
     width: 100%;
-    height: 500px;
+    height: 550px;
 }
 </style>
