@@ -5,7 +5,7 @@
 import { ChartDataItem } from './ChartDataItem';
 
 export type DateChartViewModel = {
-    readonly valueType: "probability" | "signedInteger";
+    readonly valueType: "probability" | "signedInteger" | "dan";
     readonly maxY: number;
     readonly minY: number;
     readonly intervalY: number;

@@ -25,13 +25,14 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { LineEdgePoints } from "@/view_models/charts/LineEdgePoints";
 import { AxisLabel } from "@/view_models/charts/AxisLabel";
-import { getNumericFormatter } from "@/util/ChartValueFormatter";
+import { getChartValueFormatter, toDanOnly } from "@/util/ChartValueFormatter";
+import { getCurrentDanPoint, getLowerBoundDanPoint, getUpperBoundDanPoint } from "@/services/getDanPoint";
 
 @Component
 export default class DateChartYAxis extends Vue
 {
     @Prop({ required: true })
-    valueType!: "probability" | "signedInteger";
+    valueType!: "probability" | "signedInteger" | "dan";
 
     @Prop({ required: true })
     marginLeft!: number;
@@ -54,32 +55,67 @@ export default class DateChartYAxis extends Vue
     @Prop({ required: true })
     intervalY!: number;
 
-    get horizontalLines(): readonly LineEdgePoints[] {
-        const buf: LineEdgePoints[] = [];
-        const numSections = Math.floor((this.maxY - this.minY) / this.intervalY);
-        const interval = this.height / numSections;
-        for (let i = 0; i <= numSections; ++i) {
-            const y = Math.round(this.marginTop + this.height - i * interval) - 0.5;
-            buf.push({ x1: this.marginLeft, y1: y, x2: this.marginLeft + this.width, y2: y });
+    get horizontalLines(): readonly LineEdgePoints[]
+    {
+        if (this.valueType !== "dan")
+        {
+            const buf: LineEdgePoints[] = [];
+            const numSections = Math.floor((this.maxY - this.minY) / this.intervalY);
+            const interval = this.height / numSections;
+            for (let i = 0; i <= numSections; ++i)
+            {
+                const y = Math.round(this.marginTop + this.height - i * interval) - 0.5;
+                buf.push({ x1: this.marginLeft, y1: y, x2: this.marginLeft + this.width, y2: y });
+            }
+            return buf;
         }
-        return buf;
+        else
+        {
+            const buf: LineEdgePoints[] = [];
+            const { dan: maxDan } = getCurrentDanPoint(this.maxY);
+            for (let i = 0; i < maxDan + 1; ++i)
+            {
+                const y = Math.round(this.marginTop + this.height - this.height * getLowerBoundDanPoint(i) / this.maxY) - 0.5;
+                buf.push({ x1: this.marginLeft, y1: y, x2: this.marginLeft + this.width, y2: y });
+            }
+            return buf;
+        }
     }
 
-    get valueFormatter(): (value: number) => string {
-        return getNumericFormatter(this.valueType);
+    get valueFormatter(): (value: number) => string
+    {
+        return getChartValueFormatter(this.valueType);
     }
 
-    get yLabelPositions(): readonly AxisLabel[] {
-        const buf: AxisLabel[] = [];
-        const numSections = Math.floor((this.maxY - this.minY) / this.intervalY);
-        const interval = this.height / numSections;
-        for (let i = 0; i <= numSections; ++i) {
-            const y = this.marginTop + this.height - i * interval;
-            const value = this.minY + i * this.intervalY;
-            const label = this.valueFormatter(value);
-            buf.push({ label, x: this.marginLeft, y });
+    get yLabelPositions(): readonly AxisLabel[]
+    {
+        if (this.valueType !== "dan")
+        {
+            const buf: AxisLabel[] = [];
+            const numSections = Math.floor((this.maxY - this.minY) / this.intervalY);
+            const interval = this.height / numSections;
+            for (let i = 0; i <= numSections; ++i)
+            {
+                const y = this.marginTop + this.height - i * interval;
+                const value = this.minY + i * this.intervalY;
+                const label = this.valueFormatter(value);
+                buf.push({ label, x: this.marginLeft, y });
+            }
+            return buf;
         }
-        return buf;
+        else
+        {
+            const buf: AxisLabel[] = [];
+            const { dan: maxDan } = getCurrentDanPoint(this.maxY);
+            for (let i = 0; i < maxDan + 1; ++i)
+            {
+                const value = getLowerBoundDanPoint(i);
+                const y = Math.round(this.marginTop + this.height - this.height * value / this.maxY) - 0.5;
+                const label = toDanOnly(value);
+                buf.push({ label, x: this.marginLeft, y });
+            }
+            return buf;
+        }
     }
 }
 </script>

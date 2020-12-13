@@ -11,6 +11,7 @@
                 <select v-model="selectedItem">
                     <option value="none" disabled>▼選択してください</option>
                     <option value="totalIncome">総合収支</option>
+                    <option value="dan">段位</option>
                     <option value="quinellaRate">連対率</option>
                 </select>
             </div>
@@ -101,6 +102,10 @@ export default class ChartTabContent extends Vue
             case "totalIncome": {
                 this.caption = "総合収支";
                 this.chartData = this.vm.totalIncome;
+            } break;
+            case "dan": {
+                this.caption = "段位";
+                this.chartData = this.vm.dan;
             } break;
             case "quinellaRate": {
                 this.caption = "連対率";

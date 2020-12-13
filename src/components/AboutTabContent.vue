@@ -12,6 +12,8 @@
         <section>
             <h2>更新履歴</h2>
             <dl class="revision_text">
+                <dt>2020/12/13</dt>
+                <dd>グラフタブに段位を追加</dd>
                 <dt>2020/12/06</dt>
                 <dd>グラフタブを追加</dd>
                 <dt>2020/10/27</dt>

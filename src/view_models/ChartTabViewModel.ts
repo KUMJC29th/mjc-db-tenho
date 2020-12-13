@@ -1,12 +1,13 @@
 /* Copyright © 2020 matcher-ice
- * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/. 
- * This Source Code Form is “Incompatible With Secondary Licenses”, as defined by the Mozilla Public License, v. 2.0. */
+* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/. 
+* This Source Code Form is “Incompatible With Secondary Licenses”, as defined by the Mozilla Public License, v. 2.0. */
 
 import { Player } from '@/models/Player';
 import { PlayerStats } from '@/models/PlayerStats';
-import { getDateChartViewModelPercent, getDateChartViewModelSignedInteger } from '@/services/getDateChartViewModel';
+import { getDateChartViewModelDan, getDateChartViewModelPercent, getDateChartViewModelSignedInteger } from '@/services/getDateChartViewModel';
 import { dateNumToDate } from '@/util/DateExtensions';
 import { DateChartViewModel } from './charts/DateChartViewModel';
+import { MatchResult } from '@/models/MatchResult';
 
 export class ChartTabViewModel
 {
@@ -16,8 +17,9 @@ export class ChartTabViewModel
     readonly defaultEndDate: Date;
 
     constructor(
-        private players: readonly Player[],
-        private playerStats: PlayerStats
+        private readonly players: readonly Player[],
+        private readonly playerStats: PlayerStats,
+        private readonly matchResults: readonly MatchResult[]
     )
     {
         const beginDate = dateNumToDate(playerStats[0].dateNum);
@@ -28,7 +30,8 @@ export class ChartTabViewModel
 
     get totalIncome(): DateChartViewModel
     {
-        if (!this.map.has("totalIncome")) {
+        if (!this.map.has("totalIncome"))
+        {
             this.map.set("totalIncome", getDateChartViewModelSignedInteger(this.players.map(player => player.name), this.playerStats, stat => stat.i));
         }
 
@@ -37,7 +40,8 @@ export class ChartTabViewModel
 
     get quinellaRate(): DateChartViewModel
     {
-        if (!this.map.has("quinellaRate")) {
+        if (!this.map.has("quinellaRate"))
+        {
             this.map.set("quinellaRate", getDateChartViewModelPercent(
                 this.players.map(player => player.name),
                 this.playerStats,
@@ -48,5 +52,15 @@ export class ChartTabViewModel
         }
 
         return this.map.get("quinellaRate")!;
+    }
+
+    get dan(): DateChartViewModel
+    {
+        if (!this.map.has("dan"))
+        {
+            this.map.set("dan", getDateChartViewModelDan(this.players.map(player => player.name), this.matchResults));
+        }
+
+        return this.map.get("dan")!;
     }
 }

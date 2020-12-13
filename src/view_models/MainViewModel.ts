@@ -22,6 +22,6 @@ export function toMainViewModel(mainModel: MainModel): MainViewModel
         regular: toRegularTabViewModel(playersName, mainModel.matchResults),
         stats: new StatsTabViewModel(playersName, mainModel.playerStats),
         competition: toCompetitionTabViewModel(playersName, mainModel.competition),
-        chart: new ChartTabViewModel(mainModel.players, mainModel.playerStats)
+        chart: new ChartTabViewModel(mainModel.players, mainModel.playerStats, mainModel.matchResults)
     };
 }

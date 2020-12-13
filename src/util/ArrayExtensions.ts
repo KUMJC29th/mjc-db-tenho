@@ -40,3 +40,28 @@ export function upperBoundIndex<T extends number | string | Date>(array: readonl
     return l;
 }
 
+export function group<T, K>(array: readonly T[], keySelector: (item: T) => K): IterableIterator<readonly T[]>
+{
+    const map = new Map<K, T[]>();
+    for (const item of array)
+    {
+        const key = keySelector(item);
+        if (!map.has(key))
+        {
+            map.set(key, []);
+        }
+        map.get(key)!.push(item);
+    }
+    return map.values();
+}
+
+function nonNull<T>(item: T | null | undefined): item is T
+{
+    return item != null;
+}
+
+export function ofType<T>(array: readonly (T | null | undefined)[]): T[]
+{
+    return array.filter(nonNull);
+}
+

@@ -26,7 +26,7 @@ import DateChartLine from "./DateChartLine.vue";
 import { DateChartPointViewModel } from "@/view_models/charts/DateChartPointViewModel";
 import { LineEdgePoints } from "@/view_models/charts/LineEdgePoints";
 import { Player } from "@/models/Player";
-import { getNumericFormatter } from "@/util/ChartValueFormatter";
+import { getChartValueFormatter } from "@/util/ChartValueFormatter";
 
 
 @Component({
@@ -38,7 +38,7 @@ import { getNumericFormatter } from "@/util/ChartValueFormatter";
 export default class DateChartData extends Vue
 {
     @Prop({ required: true })
-    valueType!: "probability" | "signedInteger";
+    valueType!: "probability" | "signedInteger" | "dan";
 
     @Prop({ required: true })
     players!: readonly Player[];
@@ -83,17 +83,19 @@ export default class DateChartData extends Vue
     }
 
     get valueFormatter(): (value: number) => string {
-        return getNumericFormatter(this.valueType);
+        return getChartValueFormatter(this.valueType);
     }
 
     get points(): readonly DateChartPointViewModel[] {
         return this.viewModels.flatMap(({ date, values }) => {
             const days = (date.getTime() - this.beginDate.getTime()) / 86400000;
-            const x = this.marginLeft + days * this.widthPerDay;
+            // n + 0.5になるように調整
+            const x = Math.round(this.marginLeft + days * this.widthPerDay) - 0.5;
 
             return values.flatMap((value, i) => {
                 if (value !== null) {
-                    const y = this.marginTop + this.height - (value - this.minY) * this.heightPerValue;
+                    // n + 0.5になるように調整
+                    const y = Math.round(this.marginTop + this.height - (value - this.minY) * this.heightPerValue) - 0.5;
                     return [{
                         x,
                         y,
