@@ -90,12 +90,12 @@ export default class DateChartData extends Vue
         return this.viewModels.flatMap(({ date, values }) => {
             const days = (date.getTime() - this.beginDate.getTime()) / 86400000;
             // n + 0.5になるように調整
-            const x = Math.round(this.marginLeft + days * this.widthPerDay) - 0.5;
+            const x = Math.round(this.marginLeft + days * this.widthPerDay + 0.5) - 0.5;
 
             return values.flatMap((value, i) => {
                 if (value !== null) {
                     // n + 0.5になるように調整
-                    const y = Math.round(this.marginTop + this.height - (value - this.minY) * this.heightPerValue) - 0.5;
+                    const y = Math.round(this.marginTop + this.height - (value - this.minY) * this.heightPerValue + 0.5) - 0.5;
                     return [{
                         x,
                         y,

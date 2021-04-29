@@ -10,8 +10,16 @@
         </section>
         <hr>
         <section>
+            <h2>Blog</h2>
+            <div><a href="https://kumjc29th-db-blog-47f4e.web.app" target="_blank" rel="noopener noreferrer">MJCデータベース開発ブログ</a></div>
+        </section>
+        <hr>
+        <section>
             <h2>更新履歴</h2>
             <dl class="revision_text">
+                <dt>2021/04/29</dt>
+                <dd>統計タブのドラ関連のカウントミスを修正</dd>
+                <dd>統計タブに平均総ドラ枚数、平均裏ドラ枚数を追加</dd>
                 <dt>2020/12/13</dt>
                 <dd>グラフタブに段位を追加</dd>
                 <dt>2020/12/06</dt>

@@ -55,6 +55,8 @@ export type ShortenedWinLossStat = {
     readonly ls: number;
     /** sumWinRound */
     readonly wr: number;
+    /** sumAllDoraCount */
+    readonly sd: number;
 }
 
 export type ShortenedRiichiWinLossStat = ShortenedWinLossStat & {
@@ -68,6 +70,8 @@ export type ShortenedRiichiWinLossStat = ShortenedWinLossStat & {
     readonly rf: number;
     /** trickCount */
     readonly rt: number;
+    /** sumHiddenDoraCount */
+    readonly sdh: number;
 }
 
 export type ShortenedDealerWinLossStat = ShortenedWinLossStat & {
@@ -75,6 +79,23 @@ export type ShortenedDealerWinLossStat = ShortenedWinLossStat & {
     readonly dd: number;
     /** sumDealerKeepingCount */
     readonly dk: number;
+}
+
+function createNewShortenedWinLossStat(): ShortenedWinLossStat
+{
+    return {
+        g: 0,
+        wc: 0,
+        ws: 0,
+        d: 0,
+        sc: 0,
+        fc: 0,
+        fs: 0,
+        lc: 0,
+        ls: 0,
+        wr: 0,
+        sd: 0
+    };
 }
 
 export function createNewShortenedPlayerStat(): ShortenedPlayerStat
@@ -88,58 +109,19 @@ export function createNewShortenedPlayerStat(): ShortenedPlayerStat
         sc: 0,
         d: 0,
         w: {
-            t: {
-                g: 0,
-                wc: 0,
-                ws: 0,
-                d: 0,
-                sc: 0,
-                fc: 0,
-                fs: 0,
-                lc: 0,
-                ls: 0,
-                wr: 0
-            },
+            t: createNewShortenedWinLossStat(),
             r: {
-                g: 0,
-                wc: 0,
-                ws: 0,
-                d: 0,
-                sc: 0,
-                fc: 0,
-                fs: 0,
-                lc: 0,
-                ls: 0,
-                wr: 0,
+                ...createNewShortenedWinLossStat(),
                 rr: 0,
                 rp: 0,
                 rb: 0,
                 rf: 0,
-                rt: 0
+                rt: 0,
+                sdh: 0
             },
-            m: {
-                g: 0,
-                wc: 0,
-                ws: 0,
-                d: 0,
-                sc: 0,
-                fc: 0,
-                fs: 0,
-                lc: 0,
-                ls: 0,
-                wr: 0
-            },
+            m: createNewShortenedWinLossStat(),
             d: {
-                g: 0,
-                wc: 0,
-                ws: 0,
-                d: 0,
-                sc: 0,
-                fc: 0,
-                fs: 0,
-                lc: 0,
-                ls: 0,
-                wr: 0,
+                ...createNewShortenedWinLossStat(),
                 dd: 0,
                 dk: 0
             }
@@ -175,6 +157,7 @@ export function aggregatePlayerStats(playerStats: readonly ShortenedPlayerStat[]
             acc.w.t.lc += item.w.t.lc;
             acc.w.t.ls += item.w.t.ls;
             acc.w.t.wr += item.w.t.wr;
+            acc.w.t.sd += item.w.t.sd;
 
             acc.w.r.g  += item.w.r.g;
             acc.w.r.wc += item.w.r.wc;
@@ -186,11 +169,13 @@ export function aggregatePlayerStats(playerStats: readonly ShortenedPlayerStat[]
             acc.w.r.lc += item.w.r.lc;
             acc.w.r.ls += item.w.r.ls;
             acc.w.r.wr += item.w.r.wr;
+            acc.w.r.sd += item.w.r.sd;
             acc.w.r.rr += item.w.r.rr;
             acc.w.r.rp += item.w.r.rp;
             acc.w.r.rb += item.w.r.rb;
             acc.w.r.rf += item.w.r.rf;
             acc.w.r.rt += item.w.r.rt;
+            acc.w.r.sdh += item.w.r.sdh;
 
             acc.w.m.g  += item.w.m.g;
             acc.w.m.wc += item.w.m.wc;
@@ -202,6 +187,7 @@ export function aggregatePlayerStats(playerStats: readonly ShortenedPlayerStat[]
             acc.w.m.lc += item.w.m.lc;
             acc.w.m.ls += item.w.m.ls;
             acc.w.m.wr += item.w.m.wr;
+            acc.w.m.sd += item.w.m.sd;
 
             acc.w.d.g  += item.w.d.g;
             acc.w.d.wc += item.w.d.wc;
@@ -213,6 +199,7 @@ export function aggregatePlayerStats(playerStats: readonly ShortenedPlayerStat[]
             acc.w.d.lc += item.w.d.lc;
             acc.w.d.ls += item.w.d.ls;
             acc.w.d.wr += item.w.d.wr;
+            acc.w.d.sd += item.w.d.sd;
             acc.w.d.dd += item.w.d.dd;
             acc.w.d.dk += item.w.d.dk;
 

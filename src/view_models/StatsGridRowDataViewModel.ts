@@ -81,6 +81,7 @@ const fileds = [
     "totalWinProbability",
     "totalAverageWinScore",
     "totalAverageDoubles",
+    "totalAverageAllDoraCount",
     "totalSelfDrawProbability",
     "totalAverageWinRound",
     "totalFeedingProbability",
@@ -90,6 +91,8 @@ const fileds = [
     "riichiWinProbability",
     "riichiAverageWinScore",
     "riichiAverageDoubles",
+    "riichiAverageAllDoraCount",
+    "riichiAverageHiddenDoraCount",
     "riichiSelfDrawProbability",
     "riichiAverageWinRound",
     "riichiFeedingProbability",
@@ -103,6 +106,7 @@ const fileds = [
     "meldWinProbability",
     "meldAverageWinScore",
     "meldAverageDoubles",
+    "meldAverageAllDoraCount",
     "meldSelfDrawProbability",
     "meldAverageWinRound",
     "meldFeedingProbability",
@@ -112,6 +116,7 @@ const fileds = [
     "dealerWinProbability",
     "dealerAverageWinScore",
     "dealerAverageDoubles",
+    "dealerAverageAllDoraCount",
     "dealerSelfDrawProbability",
     "dealerAverageWinRound",
     "dealerFeedingProbability",
@@ -164,6 +169,8 @@ export function createRowData(name: string, stat: ShortenedPlayerStat): StatsGri
     const meldWinGamesCount = stat.w.m.wc;
     const dealerWinGamesCount = stat.w.d.wc;
 
+    console.log(`sumAllDoraCount = ${stat.w.t.sd}`);
+
     return {
         name,
         matchesCount: stat.m,
@@ -185,6 +192,7 @@ export function createRowData(name: string, stat: ShortenedPlayerStat): StatsGri
         totalWinProbability: totalWinGamesCount / totalGamesCount,
         totalAverageWinScore: stat.w.t.ws / totalWinGamesCount,
         totalAverageDoubles: stat.w.t.d / totalWinGamesCount,
+        totalAverageAllDoraCount: stat.w.t.sd / totalWinGamesCount,
         totalSelfDrawProbability: stat.w.t.sc / totalWinGamesCount,
         totalAverageWinRound: stat.w.t.wr / totalWinGamesCount,
         totalFeedingProbability: stat.w.t.fc / totalGamesCount,
@@ -195,6 +203,8 @@ export function createRowData(name: string, stat: ShortenedPlayerStat): StatsGri
         riichiWinProbability: riichiWinGamesCount / riichiGamesCount,
         riichiAverageWinScore: stat.w.r.ws / riichiWinGamesCount,
         riichiAverageDoubles: stat.w.r.d / riichiWinGamesCount,
+        riichiAverageAllDoraCount: stat.w.r.sd / riichiWinGamesCount,
+        riichiAverageHiddenDoraCount: stat.w.r.sdh / riichiWinGamesCount,
         riichiSelfDrawProbability: stat.w.r.sc / riichiWinGamesCount,
         riichiAverageWinRound: stat.w.r.wr / riichiWinGamesCount,
         riichiFeedingProbability: stat.w.r.fc / riichiGamesCount,
@@ -209,6 +219,7 @@ export function createRowData(name: string, stat: ShortenedPlayerStat): StatsGri
         meldWinProbability: meldWinGamesCount / meldGamesCount,
         meldAverageWinScore: stat.w.m.ws / meldWinGamesCount,
         meldAverageDoubles: stat.w.m.d / meldWinGamesCount,
+        meldAverageAllDoraCount: stat.w.m.sd / meldGamesCount,
         meldSelfDrawProbability: stat.w.m.sc / meldWinGamesCount,
         meldAverageWinRound: stat.w.m.wr / meldWinGamesCount,
         meldFeedingProbability: stat.w.m.fc / meldGamesCount,
@@ -219,6 +230,7 @@ export function createRowData(name: string, stat: ShortenedPlayerStat): StatsGri
         dealerWinProbability: dealerWinGamesCount / dealerGamesCount,
         dealerAverageWinScore: stat.w.d.ws / dealerWinGamesCount,
         dealerAverageDoubles: stat.w.d.d / dealerWinGamesCount,
+        dealerAverageAllDoraCount: stat.w.d.sd / dealerGamesCount,
         dealerSelfDrawProbability: stat.w.d.sc / dealerWinGamesCount,
         dealerAverageWinRound: stat.w.d.wr / dealerWinGamesCount,
         dealerFeedingProbability: stat.w.d.fc / dealerGamesCount,
