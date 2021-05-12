@@ -27,10 +27,10 @@ export async function getMainViewModel(): Promise<MainViewModel | null>
     const model = await getMainModel();
 
     //debug
-    if (model !== null)
-    {
-        console.log(model.playerStats);
-    }
+    // if (model !== null)
+    // {
+    //     console.log(model.playerStats);
+    // }
 
     return model !== null ? toMainViewModel(model) : null;
 }

@@ -169,8 +169,6 @@ export function createRowData(name: string, stat: ShortenedPlayerStat): StatsGri
     const meldWinGamesCount = stat.w.m.wc;
     const dealerWinGamesCount = stat.w.d.wc;
 
-    console.log(`sumAllDoraCount = ${stat.w.t.sd}`);
-
     return {
         name,
         matchesCount: stat.m,

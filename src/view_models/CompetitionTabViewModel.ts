@@ -8,10 +8,9 @@ import { SingleColumnDefinition } from './grids/ColumnDefinition';
 
 export type CompetitionTabViewModel = {
     readonly winLossGridViewModel: GridViewModel<string | CompetitionResult>,
-    readonly incomeGridViewModel: GridViewModel<string | CompetitionResult>
+    readonly incomeGridViewModel: GridViewModel<string | CompetitionResult>,
+    readonly feedingGridViewModel: GridViewModel<string | CompetitionResult>
 }
-
-const cellWidth = 80;
 
 function displayCompetitionResultWinLoss(params: { value: CompetitionResult | null }): string
 {
@@ -25,10 +24,15 @@ function displayCompetitionResultIncome(params: { value: CompetitionResult | nul
         : params.value.income > 0 ? `+${params.value.income.toFixed(0)}` : params.value.income.toFixed(0);
 }
 
+function displayCompetitionResultFeeding(params: { value: CompetitionResult | null }): string
+{
+    return params.value?.sumFeeding?.toLocaleString() ?? "";
+}
+
 
 export function toCompetitionTabViewModel(players: readonly string[], competition: Competition): CompetitionTabViewModel
 {
-    // 'rowData'は2つのvmで参照を使い回す。readonlyなのでおそらく問題ないはず。
+    // 'rowData'は3つのvmで参照を使い回す。readonlyなのでおそらく問題ないはず。
     const rowData = competition.map((row, rowIndex) =>
         ({
             player: players[rowIndex],
@@ -49,7 +53,7 @@ export function toCompetitionTabViewModel(players: readonly string[], competitio
                 headerName: " ",
                 cellClass: "competition-row-header",
                 pinned: "left",
-                width: cellWidth
+                width: 80
             },
             ...players.map((player, index) =>
                 ({
@@ -57,7 +61,7 @@ export function toCompetitionTabViewModel(players: readonly string[], competitio
                     headerName: player,
                     cellClass: "competition-win-loss-cell",
                     valueFormatter: displayCompetitionResultWinLoss,
-                    width: cellWidth,
+                    width: 80,
                 }) as SingleColumnDefinition<CompetitionResult>
             )
         ],
@@ -71,7 +75,7 @@ export function toCompetitionTabViewModel(players: readonly string[], competitio
                 headerName: " ",
                 cellClass: "competition-row-header",
                 pinned: "left",
-                width: cellWidth
+                width: 80
             },
             ...players.map((player, index) =>
                 ({
@@ -79,7 +83,28 @@ export function toCompetitionTabViewModel(players: readonly string[], competitio
                     headerName: player,
                     cellClass: "cell-number",
                     valueFormatter: displayCompetitionResultIncome,
-                    width: cellWidth,
+                    width: 80,
+                })
+            )
+        ],
+        rowData
+    };
+    const feedingGridViewModel: GridViewModel<string | CompetitionResult> = {
+        columnDefs: [
+            {
+                field: "player",
+                headerName: " ",
+                cellClass: "competition-row-header",
+                pinned: "left",
+                width: 90
+            },
+            ...players.map((player, index) =>
+                ({
+                    field: `p${index}`,
+                    headerName: player,
+                    cellClass: "cell-number",
+                    valueFormatter: displayCompetitionResultFeeding,
+                    width: 90,
                 })
             )
         ],
@@ -88,6 +113,7 @@ export function toCompetitionTabViewModel(players: readonly string[], competitio
 
     return {
         winLossGridViewModel,
-        incomeGridViewModel
+        incomeGridViewModel,
+        feedingGridViewModel
     };
 }
