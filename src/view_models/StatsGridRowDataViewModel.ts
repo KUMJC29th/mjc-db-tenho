@@ -126,8 +126,6 @@ const fileds = [
     "pinfuProbability",
     "tanyaoProbability",
     "fanpaiProbability",
-    // "doraProbability",
-    // "hiddenDoraProbability",
     ...yakuFields
 ] as const;
 
@@ -168,6 +166,7 @@ export function createRowData(name: string, stat: ShortenedPlayerStat): StatsGri
     const riichiWinGamesCount = stat.w.r.wc;
     const meldWinGamesCount = stat.w.m.wc;
     const dealerWinGamesCount = stat.w.d.wc;
+    const sumYakuRiichi = stat.y[1] + stat.y[21];
 
     return {
         name,
@@ -202,7 +201,7 @@ export function createRowData(name: string, stat: ShortenedPlayerStat): StatsGri
         riichiAverageWinScore: stat.w.r.ws / riichiWinGamesCount,
         riichiAverageDoubles: stat.w.r.d / riichiWinGamesCount,
         riichiAverageAllDoraCount: stat.w.r.sd / riichiWinGamesCount,
-        riichiAverageHiddenDoraCount: stat.w.r.sdh / riichiWinGamesCount,
+        riichiAverageHiddenDoraCount: stat.w.r.sdh / sumYakuRiichi,
         riichiSelfDrawProbability: stat.w.r.sc / riichiWinGamesCount,
         riichiAverageWinRound: stat.w.r.wr / riichiWinGamesCount,
         riichiFeedingProbability: stat.w.r.fc / riichiGamesCount,
